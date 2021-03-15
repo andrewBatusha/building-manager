@@ -3,17 +3,11 @@ package com.coursework.demo.dto;
 import com.coursework.demo.entity.Building;
 import com.coursework.demo.entity.enums.Bookkeeping;
 import com.coursework.demo.entity.enums.ProcurementType;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
 
 @Data
-public class LedgerDTO {
-
-    private Long id;
+public class AddLedgerDTO {
 
     private String name;
 
@@ -22,10 +16,6 @@ public class LedgerDTO {
     private Bookkeeping bookkeeping;
 
     private ProcurementType procurementType;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+2")
-    private LocalDateTime dueTime;
 
     private String unitOfMeasurement;
 

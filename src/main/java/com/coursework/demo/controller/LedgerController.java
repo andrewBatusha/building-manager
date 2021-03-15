@@ -1,5 +1,6 @@
 package com.coursework.demo.controller;
 
+import com.coursework.demo.dto.AddLedgerDTO;
 import com.coursework.demo.dto.LedgerDTO;
 import com.coursework.demo.entity.Ledger;
 import com.coursework.demo.mapper.LedgerMapper;
@@ -36,10 +37,9 @@ public class LedgerController {
         this.ledgerMapper = ledgerMapper;
     }
 
-
     @GetMapping("/{id}")
     @ApiOperation(value = "Get ledger info by id")
-    public ResponseEntity<LedgerDTO> get(@PathVariable("id") long id){
+    public ResponseEntity<LedgerDTO> get(@PathVariable("id") long id) {
         Ledger ledger = ledgerService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(ledgerMapper.convertToDto(ledger));
     }
@@ -51,11 +51,10 @@ public class LedgerController {
         return ResponseEntity.ok().body(ledgerMapper.convertToDtoList(ledgerService.getAll(pageable)));
     }
 
-
     @PostMapping
     @ApiOperation(value = "Create new ledger")
-    public ResponseEntity<LedgerDTO> save(@RequestBody LedgerDTO ledgerDTO) {
-        Ledger ledger = ledgerService.save(ledgerMapper.convertToEntity(ledgerDTO));
+    public ResponseEntity<LedgerDTO> save(@RequestBody AddLedgerDTO addLedgerDTO) {
+        Ledger ledger = ledgerService.save(ledgerMapper.convertToEntity(addLedgerDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(ledgerMapper.convertToDto(ledger));
     }
 
@@ -72,7 +71,7 @@ public class LedgerController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete ledger by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
+    public ResponseEntity delete(@PathVariable("id") long id) {
         Ledger ledger = ledgerService.getById(id);
         ledgerService.delete(ledger);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

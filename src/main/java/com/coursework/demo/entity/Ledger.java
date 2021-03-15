@@ -44,8 +44,6 @@ public class Ledger implements Serializable {
     private ProcurementType procurementType;
 
     @Column(name = "due_time")
-    @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm", lenient = OptBoolean.FALSE, timezone = "GMT+3")
     private LocalDateTime dueTime;
 
 

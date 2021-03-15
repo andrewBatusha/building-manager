@@ -1,5 +1,6 @@
 package com.coursework.demo.controller;
 
+import com.coursework.demo.dto.AddBuildingDTO;
 import com.coursework.demo.dto.BuildingDTO;
 import com.coursework.demo.entity.Building;
 import com.coursework.demo.mapper.BuildingMapper;
@@ -53,8 +54,8 @@ public class BuildingController {
 
     @PostMapping
     @ApiOperation(value = "Create new building")
-    public ResponseEntity<BuildingDTO> save(@RequestBody BuildingDTO buildingDTO) {
-        Building building = buildingService.save(buildingMapper.convertToEntity(buildingDTO));
+    public ResponseEntity<BuildingDTO> save(@RequestBody AddBuildingDTO addBuildingDTO) {
+        Building building = buildingService.save(buildingMapper.convertToEntity(addBuildingDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(buildingMapper.convertToDto(building));
 
     }

@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class BuildingServiceImpl implements BuildingService {
 
-    BuildingRepository buildingRepository;
+    private final BuildingRepository buildingRepository;
 
     @Autowired
     public BuildingServiceImpl(BuildingRepository buildingRepository) {

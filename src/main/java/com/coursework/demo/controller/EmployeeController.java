@@ -1,5 +1,6 @@
 package com.coursework.demo.controller;
 
+import com.coursework.demo.dto.AddEmployeeDTO;
 import com.coursework.demo.dto.EmployeeDTO;
 import com.coursework.demo.entity.Employee;
 import com.coursework.demo.mapper.EmployeeMapper;
@@ -53,8 +54,8 @@ public class EmployeeController {
 
     @PostMapping
     @ApiOperation(value = "Create new employee")
-    public ResponseEntity<EmployeeDTO> save(@RequestBody EmployeeDTO passportDTO) {
-        Employee employee = employeeService.save(employeeMapper.convertToEntity(passportDTO));
+    public ResponseEntity<EmployeeDTO> save(@RequestBody AddEmployeeDTO addEmployeeDTO) {
+        Employee employee = employeeService.save(employeeMapper.convertToEntity(addEmployeeDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeMapper.convertToDto(employee));
     }
 
