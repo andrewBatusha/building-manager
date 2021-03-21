@@ -1,5 +1,6 @@
 package com.coursework.demo.service.impl;
 
+import com.coursework.demo.dto.ExpensesDTO;
 import com.coursework.demo.entity.Ledger;
 import com.coursework.demo.entity.enums.ProcurementType;
 import com.coursework.demo.mapper.TransferMapper;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -56,7 +56,6 @@ public class LedgerServiceImpl implements LedgerService {
 
     @Override
     public Ledger save(Ledger object) {
-        object.setDueTime(LocalDateTime.now());
         log.info("In save(entity = [{}]", object);
         transferLedger(object);
         return ledgerRepository.save(object);
@@ -66,6 +65,11 @@ public class LedgerServiceImpl implements LedgerService {
     public Ledger delete(Ledger object) {
         ledgerRepository.delete(object);
         return object;
+    }
+
+    @Override
+    public List<ExpensesDTO> getExpensesName(String name) {
+        return ledgerRepository.findExpensesName(name);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.coursework.demo.controller;
 
 import com.coursework.demo.dto.AddLedgerDTO;
+import com.coursework.demo.dto.ExpensesDTO;
 import com.coursework.demo.dto.LedgerDTO;
 import com.coursework.demo.entity.Ledger;
 import com.coursework.demo.mapper.LedgerMapper;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -42,6 +44,11 @@ public class LedgerController {
     public ResponseEntity<LedgerDTO> get(@PathVariable("id") long id) {
         Ledger ledger = ledgerService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(ledgerMapper.convertToDto(ledger));
+    }
+
+    @GetMapping("/expenses")
+    public ResponseEntity<List<ExpensesDTO>> expensesList(@RequestParam String name) {
+        return ResponseEntity.ok().body(ledgerService.getExpensesName(name));
     }
 
 
