@@ -63,7 +63,7 @@ public class EmployeeController {
     @ApiOperation(value = "Update existing employee by id")
     public ResponseEntity<EmployeeDTO> update(@PathVariable("id") long id, @RequestBody EmployeeDTO employeeDTO) {
         if (id == employeeDTO.getId()) {
-            Employee employee = employeeService.update(employeeMapper.convertToEntity(employeeDTO));
+            Employee employee = employeeService.save(employeeMapper.convertToEntity(employeeDTO));
             return ResponseEntity.status(HttpStatus.OK).body(employeeMapper.convertToDto(employee));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

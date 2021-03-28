@@ -32,11 +32,6 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public Building update(Building object) {
-        return buildingRepository.save(object);
-    }
-
-    @Override
     public Building save(Building object) {
         return buildingRepository.save(object);
     }

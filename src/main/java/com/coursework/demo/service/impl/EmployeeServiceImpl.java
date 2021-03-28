@@ -32,11 +32,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee update(Employee object) {
-        return employeeRepository.save(object);
-    }
-
-    @Override
     public Employee save(Employee object) {
         return employeeRepository.save(object);
     }

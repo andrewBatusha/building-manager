@@ -64,7 +64,7 @@ public class BuildingController {
     @ApiOperation(value = "Update existing building by id")
     public ResponseEntity<BuildingDTO> update(@PathVariable("id") long id, @RequestBody BuildingDTO buildingDTO) {
         if (id == buildingDTO.getId()) {
-            Building building = buildingService.update(buildingMapper.convertToEntity(buildingDTO));
+            Building building = buildingService.save(buildingMapper.convertToEntity(buildingDTO));
             return ResponseEntity.status(HttpStatus.OK).body(buildingMapper.convertToDto(building));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

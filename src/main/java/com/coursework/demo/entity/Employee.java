@@ -1,6 +1,8 @@
 package com.coursework.demo.entity;
 
 import com.coursework.demo.entity.enums.TimeType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,13 +17,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "employees")
 public class Employee implements Serializable {
 

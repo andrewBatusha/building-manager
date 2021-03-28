@@ -37,6 +37,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         return equipmentRepository.findAll(pageable).getContent();
     }
 
+    @Override
     public Equipment update(Equipment jsonEquipment, Bookkeeping bookkeeping) {
         log.info("In update(entity = [{}]", jsonEquipment);
         Equipment dbEquipment = getEquipmentByName(jsonEquipment.getName(), jsonEquipment.getBuilding().getName());

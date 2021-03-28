@@ -48,13 +48,6 @@ public class LedgerServiceImpl implements LedgerService {
     }
 
     @Override
-    public Ledger update(Ledger object) {
-        log.info("In update(entity = [{}]", object);
-        transferLedger(object);
-        return ledgerRepository.save(object);
-    }
-
-    @Override
     public Ledger save(Ledger object) {
         log.info("In save(entity = [{}]", object);
         transferLedger(object);

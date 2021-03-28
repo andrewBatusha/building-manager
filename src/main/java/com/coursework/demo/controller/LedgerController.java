@@ -69,7 +69,7 @@ public class LedgerController {
     @ApiOperation(value = "Update existing ledger by id")
     public ResponseEntity<LedgerDTO> update(@PathVariable("id") long id, @RequestBody LedgerDTO ledgerDTO) {
         if (id == ledgerDTO.getId()) {
-            Ledger ledger = ledgerService.update(ledgerMapper.convertToEntity(ledgerDTO));
+            Ledger ledger = ledgerService.save(ledgerMapper.convertToEntity(ledgerDTO));
             return ResponseEntity.status(HttpStatus.OK).body(ledgerMapper.convertToDto(ledger));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
