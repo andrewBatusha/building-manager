@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getBuilding;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -32,7 +33,7 @@ public class BuildingServiceImplTest {
 
     @Test
     public void testGetById() {
-        final Building building = getBuild();
+        final Building building = getBuilding();
 
         when(buildingRepository.findById(anyLong())).thenReturn(Optional.of(building));
 
@@ -44,7 +45,7 @@ public class BuildingServiceImplTest {
 
     @Test
     public void testGetAll() {
-        final Building building = getBuild();
+        final Building building = getBuilding();
         final List<Building> buildingList = Collections.singletonList(building);
         final Pageable pageable = PageRequest.of(0, 5);
         final Page<Building> buildingPage = new PageImpl<>(buildingList, pageable, 5);
@@ -59,7 +60,7 @@ public class BuildingServiceImplTest {
 
     @Test
     public void testSave() {
-        final Building building = getBuild();
+        final Building building = getBuilding();
 
         when(buildingRepository.save(building)).thenReturn(building);
 
@@ -71,7 +72,7 @@ public class BuildingServiceImplTest {
 
     @Test
     public void testDelete() {
-        final Building building = getBuild();
+        final Building building = getBuilding();
 
         doNothing().when(buildingRepository).delete(building);
 
@@ -79,12 +80,5 @@ public class BuildingServiceImplTest {
 
         assertEquals(building, result);
         verify(buildingRepository).delete(building);
-    }
-
-    private Building getBuild() {
-        return Building.builder()
-                .name("buildName")
-                .geolocation("street")
-                .build();
     }
 }

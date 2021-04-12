@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getEquipment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -224,17 +225,5 @@ public class EquipmentServiceImplTest {
 
         assertEquals(equipment, result);
         verify(equipmentRepository).delete(equipment);
-    }
-
-    private Equipment getEquipment(Long quantity, Building building) {
-        return Equipment.builder()
-                .name("laptop")
-                .quantity(quantity)
-                .building(building)
-                .build();
-    }
-
-    private Equipment getEquipment(Long quantity) {
-        return getEquipment(quantity, null);
     }
 }

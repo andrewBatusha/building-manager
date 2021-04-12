@@ -52,7 +52,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             dbWarehouse = changeWarehouseQuantity(dbWarehouse, dbWarehouse.getQuantity() + object.getQuantity());
         } else if (bookkeeping == Bookkeeping.INCOME) {
             if (dbWarehouse.getQuantity() < object.getQuantity()) {
-                throw new EntityWithQuantityException("you ary trying to sell more than you have at warehouse");
+                throw new EntityWithQuantityException("you are trying to sell more than you have at warehouse");
             } else if (dbWarehouse.getQuantity().equals(object.getQuantity())) {
                 dbWarehouse = delete(dbWarehouse);
             } else {

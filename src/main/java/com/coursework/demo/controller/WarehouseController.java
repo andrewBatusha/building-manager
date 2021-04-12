@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,13 +44,5 @@ public class WarehouseController {
     @ApiOperation(value = "Get the list of all warehouses")
     public ResponseEntity<List<WarehouseDTO>> getPage(@PageableDefault(sort = {"id"}) Pageable pageable) {
         return ResponseEntity.ok().body(warehouseMapper.convertToDtoList(warehouseService.getAll(pageable)));
-    }
-
-    @DeleteMapping("/{id}")
-    @ApiOperation(value = "Delete warehouse by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
-        Warehouse warehouse = warehouseService.getById(id);
-        warehouseService.delete(warehouse);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

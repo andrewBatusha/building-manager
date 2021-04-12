@@ -20,6 +20,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getBuilding;
+import static com.coursework.demo.TestData.getEquipment;
+import static com.coursework.demo.TestData.getLedger;
+import static com.coursework.demo.TestData.getWarehouse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -46,12 +50,7 @@ public class LedgerServiceImplTest {
 
     @Test
     public void testGetById() {
-        final Ledger ledger = Ledger.builder()
-                .name("apple")
-                .bookkeeping(Bookkeeping.EXPENSES)
-                .quantity(10L)
-                .price(50L)
-                .build();
+        final Ledger ledger = getLedger("apple", Bookkeeping.EXPENSES);
 
         when(ledgerRepository.findById(anyLong())).thenReturn(Optional.of(ledger));
 
@@ -63,12 +62,7 @@ public class LedgerServiceImplTest {
 
     @Test
     public void testGetAll() {
-        final Ledger ledger = Ledger.builder()
-                .name("apple")
-                .bookkeeping(Bookkeeping.EXPENSES)
-                .quantity(10L)
-                .price(50L)
-                .build();
+        final Ledger ledger = getLedger("apple", Bookkeeping.EXPENSES);
         final List<Ledger> ledgerList = Collections.singletonList(ledger);
         final Pageable pageable = PageRequest.of(0, 5);
         final Page<Ledger> ledgers = new PageImpl<>(ledgerList, pageable, 5);
@@ -83,18 +77,8 @@ public class LedgerServiceImplTest {
 
     @Test
     public void testSaveEquipment() {
-        final Ledger ledger = Ledger.builder()
-                .name("laptop")
-                .bookkeeping(Bookkeeping.EXPENSES)
-                .procurementType(ProcurementType.EQUIPMENT)
-                .quantity(10L)
-                .price(50L)
-                .build();
-        final Equipment equipment = Equipment.builder()
-                .name("laptop")
-                .quantity(10L)
-                .price(50L)
-                .build();
+        final Ledger ledger = getLedger("laptop", Bookkeeping.EXPENSES, ProcurementType.EQUIPMENT);
+        final Equipment equipment = getEquipment(10L, getBuilding());
 
         when(equipmentService.save(equipment, ledger.getBookkeeping())).thenReturn(equipment);
         when(ledgerRepository.save(ledger)).thenReturn(ledger);
@@ -109,17 +93,8 @@ public class LedgerServiceImplTest {
 
     @Test
     public void testSaveWarehouse() {
-        final Ledger ledger = Ledger.builder()
-                .name("apple")
-                .bookkeeping(Bookkeeping.EXPENSES)
-                .procurementType(ProcurementType.WAREHOUSE)
-                .quantity(10L)
-                .price(50L)
-                .build();
-        final Warehouse warehouse = Warehouse.builder()
-                .name("apple")
-                .quantity(10L)
-                .build();
+        final Ledger ledger = getLedger("apple",Bookkeeping.EXPENSES, ProcurementType.WAREHOUSE);
+        final Warehouse warehouse = getWarehouse(10L, getBuilding());
 
         when(warehouseService.save(warehouse, ledger.getBookkeeping())).thenReturn(warehouse);
         when(ledgerRepository.save(ledger)).thenReturn(ledger);
@@ -134,13 +109,7 @@ public class LedgerServiceImplTest {
 
     @Test
     public void testSavePersonal() {
-        final Ledger ledger = Ledger.builder()
-                .name("apple")
-                .bookkeeping(Bookkeeping.EXPENSES)
-                .procurementType(ProcurementType.PERSONAL)
-                .quantity(10L)
-                .price(50L)
-                .build();
+        final Ledger ledger = getLedger("apple",Bookkeeping.EXPENSES, ProcurementType.PERSONAL);
         when(ledgerRepository.save(ledger)).thenReturn(ledger);
 
         final Ledger result = ledgerService.save(ledger);
@@ -153,12 +122,7 @@ public class LedgerServiceImplTest {
 
     @Test
     public void testDelete() {
-        final Ledger ledger = Ledger.builder()
-                .name("apple")
-                .bookkeeping(Bookkeeping.EXPENSES)
-                .quantity(10L)
-                .price(50L)
-                .build();
+        final Ledger ledger = getLedger("apple", Bookkeeping.EXPENSES);
 
         doNothing().when(ledgerRepository).delete(ledger);
 

@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getWarehouse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -224,17 +225,5 @@ public class WarehouseServiceImplTest {
 
         assertEquals(warehouse, result);
         verify(warehouseRepository).delete(warehouse);
-    }
-
-    private Warehouse getWarehouse(Long quantity, Building building) {
-        return Warehouse.builder()
-                .name("apple")
-                .quantity(quantity)
-                .building(building)
-                .build();
-    }
-
-    private Warehouse getWarehouse(Long quantity) {
-        return getWarehouse(quantity, null);
     }
 }

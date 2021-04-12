@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getEmployee;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -79,13 +80,5 @@ public class EmployeeServiceImplTest {
 
         assertEquals(employee, result);
         verify(employeeRepository).delete(employee);
-    }
-
-    private Employee getEmployee() {
-        return Employee.builder()
-                .name("John")
-                .email("email")
-                .salary(500L)
-                .build();
     }
 }

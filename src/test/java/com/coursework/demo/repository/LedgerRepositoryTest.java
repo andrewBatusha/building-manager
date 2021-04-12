@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.coursework.demo.TestData.getExpectedExpensesList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -27,14 +28,4 @@ public class LedgerRepositoryTest {
         assertFalse(expensesDTOList.isEmpty());
         assertTrue(expensesDTOList.containsAll(getExpectedExpensesList()));
     }
-
-    private List<ExpensesDTO> getExpectedExpensesList() {
-        return Arrays.asList(
-                new ExpensesDTO(ProcurementType.PERSONAL, 25000L),
-                new ExpensesDTO(ProcurementType.WAREHOUSE, 800L),
-                new ExpensesDTO(ProcurementType.EQUIPMENT, 10000L),
-                new ExpensesDTO(ProcurementType.BILLS, 300L)
-        );
-    }
-
 }
