@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, OWNER, WORKER, BOOKKEEPER')")
     @ApiOperation(value = "Get warehouse info by id")
     public ResponseEntity<WarehouseDTO> get(@PathVariable("id") long id){
         Warehouse warehouse = warehouseService.getById(id);
@@ -41,6 +43,7 @@ public class WarehouseController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN, OWNER, WORKER, BOOKKEEPER')")
     @ApiOperation(value = "Get the list of all warehouses")
     public ResponseEntity<List<WarehouseDTO>> getPage(@PageableDefault(sort = {"id"}) Pageable pageable) {
         return ResponseEntity.ok().body(warehouseMapper.convertToDtoList(warehouseService.getAll(pageable)));

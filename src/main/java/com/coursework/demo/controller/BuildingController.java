@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class BuildingController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, OWNER')")
     @ApiOperation(value = "Get building info by id")
     public ResponseEntity<BuildingDTO> get(@PathVariable("id") long id) {
         Building building = buildingService.getById(id);
@@ -46,6 +48,7 @@ public class BuildingController {
 
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get the list of all buildings")
     public ResponseEntity<List<BuildingDTO>> getPage(@PageableDefault(sort = {"id"}) Pageable pageable) {
         return ResponseEntity.ok().body(buildingMapper.convertToDtoList(buildingService.getAll(pageable)));
@@ -53,6 +56,7 @@ public class BuildingController {
 
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN, OWNER')")
     @ApiOperation(value = "Create new building")
     public ResponseEntity<BuildingDTO> save(@RequestBody AddBuildingDTO addBuildingDTO) {
         Building building = buildingService.save(buildingMapper.convertToEntity(addBuildingDTO));
@@ -61,6 +65,7 @@ public class BuildingController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, OWNER')")
     @ApiOperation(value = "Update existing building by id")
     public ResponseEntity<BuildingDTO> update(@PathVariable("id") long id, @RequestBody BuildingDTO buildingDTO) {
         if (id == buildingDTO.getId()) {
@@ -72,6 +77,7 @@ public class BuildingController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, OWNER')")
     @ApiOperation(value = "Delete building by id")
     public ResponseEntity delete(@PathVariable("id") long id) {
         Building building = buildingService.getById(id);

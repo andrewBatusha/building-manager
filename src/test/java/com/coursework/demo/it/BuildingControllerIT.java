@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -48,6 +49,7 @@ public class BuildingControllerIT {
     private BuildingRepository buildingRepository;
 
     @Test
+    @WithMockUser(roles = "OWNER")
     public void testRetrieveBuildingById() throws Exception {
         when(buildingRepository.findById(anyLong())).thenReturn(Optional.of(getBuilding()));
 
@@ -57,6 +59,7 @@ public class BuildingControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testRetrieveBuildingList() throws Exception {
         final Building building = getBuilding();
         final List<Building> buildings = Collections.singletonList(building);
@@ -71,6 +74,7 @@ public class BuildingControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "OWNER")
     public void testSaveBuilding() throws Exception {
         final Building building = getBuilding();
         final BuildingDTO request = getBuildingRequest();
@@ -83,6 +87,7 @@ public class BuildingControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "OWNER")
     public void testUpdateBuilding() throws Exception {
         final Building building = getBuilding();
         final BuildingDTO request = getBuildingRequest();
@@ -95,6 +100,7 @@ public class BuildingControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "OWNER")
     public void testUpdateBuildingExpectedBadRequest() throws Exception {
         final BuildingDTO request = getBuildingRequest();
 
@@ -103,6 +109,7 @@ public class BuildingControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "OWNER")
     public void testDeleteBuilding() throws Exception {
         final Building building = getBuilding();
 

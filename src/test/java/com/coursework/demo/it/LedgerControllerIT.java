@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -71,6 +72,7 @@ public class LedgerControllerIT {
     private WarehouseRepository warehouseRepository;
 
     @Test
+    @WithMockUser(roles = "OWNER")
     public void testRetrieveLedgerById() throws Exception {
         when(ledgerRepository.findById(anyLong())).thenReturn(Optional.of(getLedger("apple", Bookkeeping.EXPENSES)));
 
@@ -80,6 +82,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testRetrieveExpenses() throws Exception {
         when(ledgerRepository.findExpensesName("Ozzy")).thenReturn(getExpectedExpensesList());
 
@@ -89,6 +92,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testRetrieveLedgerList() throws Exception {
         final Ledger ledger = getLedger("apple", Bookkeeping.EXPENSES);
         final List<Ledger> ledgers = Collections.singletonList(ledger);
@@ -103,6 +107,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedStoreNewEquipmentInDatabase() throws Exception {
         final Ledger ledger = getLedger("laptop", Bookkeeping.EXPENSES, ProcurementType.EQUIPMENT);
         final LedgerDTO request = getLedgerRequest("laptop", Bookkeeping.EXPENSES, ProcurementType.EQUIPMENT);
@@ -122,6 +127,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedStoreNewWarehouseInDatabase() throws Exception {
         final Ledger ledger = getLedger("apple", Bookkeeping.EXPENSES, ProcurementType.WAREHOUSE);
         final LedgerDTO request = getLedgerRequest("apple", Bookkeeping.EXPENSES, ProcurementType.WAREHOUSE);
@@ -141,6 +147,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedWarehouseServiceThrowBookKeepingException() throws Exception {
         final Ledger ledger = getLedger("apple", Bookkeeping.INCOME, ProcurementType.WAREHOUSE);
         final LedgerDTO request = getLedgerRequest("apple", Bookkeeping.INCOME, ProcurementType.WAREHOUSE);
@@ -160,6 +167,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedEquipmentServiceThrowBookKeepingException() throws Exception {
         final Ledger ledger = getLedger("laptop", Bookkeeping.INCOME, ProcurementType.EQUIPMENT);
         final LedgerDTO request = getLedgerRequest("laptop", Bookkeeping.INCOME, ProcurementType.EQUIPMENT);
@@ -179,6 +187,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedNothingElseStoreInDatabase() throws Exception {
         final Ledger ledger = getLedger("mansion", Bookkeeping.EXPENSES, ProcurementType.PERSONAL);
         final LedgerDTO request = getLedgerRequest("mansion", Bookkeeping.EXPENSES, ProcurementType.PERSONAL);
@@ -195,6 +204,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedExpensesChangeWarehouseQuantity() throws Exception {
         final Ledger ledger = getLedger("apple", Bookkeeping.EXPENSES, ProcurementType.WAREHOUSE);
         final LedgerDTO request = getLedgerRequest("apple", Bookkeeping.EXPENSES, ProcurementType.WAREHOUSE);
@@ -219,6 +229,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedExpensesChangeEquipmentQuantity() throws Exception {
         final Ledger ledger = getLedger("laptop", Bookkeeping.EXPENSES, ProcurementType.EQUIPMENT);
         final LedgerDTO request = getLedgerRequest("laptop", Bookkeeping.EXPENSES, ProcurementType.EQUIPMENT);
@@ -243,6 +254,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedEquipmentServiceThrowEntityWithQuantityException() throws Exception {
         final LedgerDTO request = getLedgerRequest("laptop", Bookkeeping.INCOME, ProcurementType.EQUIPMENT);
         final Equipment equipment = getEquipment(5L, getBuilding());
@@ -264,6 +276,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedWarehouseServiceThrowEntityWithQuantityException() throws Exception {
         final LedgerDTO request = getLedgerRequest("apple", Bookkeeping.INCOME, ProcurementType.WAREHOUSE);
         final Warehouse warehouse = getWarehouse(5L, getBuilding());
@@ -285,6 +298,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedDeleteWarehouseRecord() throws Exception {
         final Ledger ledger = getLedger("apple", Bookkeeping.INCOME, ProcurementType.WAREHOUSE);
         final LedgerDTO request = getLedgerRequest("apple", Bookkeeping.INCOME, ProcurementType.WAREHOUSE);
@@ -308,6 +322,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedDeleteEquipmentRecord() throws Exception {
         final Ledger ledger = getLedger("laptop", Bookkeeping.INCOME, ProcurementType.EQUIPMENT);
         final LedgerDTO request = getLedgerRequest("laptop", Bookkeeping.INCOME, ProcurementType.EQUIPMENT);
@@ -331,6 +346,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedIncomeChangeWarehouseQuantity() throws Exception {
         final Ledger ledger = getLedger("apple", Bookkeeping.INCOME, ProcurementType.WAREHOUSE);
         final LedgerDTO request = getLedgerRequest("apple", Bookkeeping.INCOME, ProcurementType.WAREHOUSE);
@@ -355,6 +371,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testSaveLedgerExpectedIncomeChangeEquipmentQuantity() throws Exception {
         final Ledger ledger = getLedger("laptop", Bookkeeping.INCOME, ProcurementType.EQUIPMENT);
         final LedgerDTO request = getLedgerRequest("laptop", Bookkeeping.INCOME, ProcurementType.EQUIPMENT);
@@ -379,6 +396,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testUpdateLedger() throws Exception {
         final Ledger ledger = getLedger("laptop", Bookkeeping.EXPENSES, ProcurementType.EQUIPMENT);
         final LedgerDTO request = getLedgerRequest("laptop", Bookkeeping.EXPENSES, ProcurementType.EQUIPMENT);
@@ -405,6 +423,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testUpdateLedgerExpectedBadRequest() throws Exception {
         final LedgerDTO request = getLedgerRequest("apple", Bookkeeping.EXPENSES);
 
@@ -413,6 +432,7 @@ public class LedgerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "BOOKKEEPER")
     public void testDeleteLedger() throws Exception {
         final Ledger ledger = getLedger("apple", Bookkeeping.EXPENSES);
 

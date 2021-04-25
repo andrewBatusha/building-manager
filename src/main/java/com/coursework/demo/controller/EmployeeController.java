@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, OWNER, WORKER, BOOKKEEPER')")
     @ApiOperation(value = "Get employee info by id")
     public ResponseEntity<EmployeeDTO> get(@PathVariable("id") long id){
         Employee employee = employeeService.getById(id);
@@ -46,6 +48,7 @@ public class EmployeeController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN, OWNER, WORKER, BOOKKEEPER')")
     @ApiOperation(value = "Get the list of all employees")
     public ResponseEntity<List<EmployeeDTO>> getPage(@PageableDefault(sort = {"id"}) Pageable pageable) {
         return ResponseEntity.ok().body(employeeMapper.convertToDtoList(employeeService.getAll(pageable)));
@@ -53,6 +56,7 @@ public class EmployeeController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Create new employee")
     public ResponseEntity<EmployeeDTO> save(@RequestBody AddEmployeeDTO addEmployeeDTO) {
         Employee employee = employeeService.save(employeeMapper.convertToEntity(addEmployeeDTO));
@@ -60,6 +64,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update existing employee by id")
     public ResponseEntity<EmployeeDTO> update(@PathVariable("id") long id, @RequestBody EmployeeDTO employeeDTO) {
         if (id == employeeDTO.getId()) {
@@ -71,6 +76,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete employee by id")
     public ResponseEntity delete(@PathVariable("id") long id){
         Employee employee = employeeService.getById(id);

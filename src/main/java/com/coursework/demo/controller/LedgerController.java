@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,7 @@ public class LedgerController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('BOOKKEEPER, OWNER')")
     @ApiOperation(value = "Get ledger info by id")
     public ResponseEntity<LedgerDTO> get(@PathVariable("id") long id) {
         Ledger ledger = ledgerService.getById(id);
@@ -47,18 +49,21 @@ public class LedgerController {
     }
 
     @GetMapping("/expenses")
+    @PreAuthorize("hasAnyRole('BOOKKEEPER, OWNER')")
     public ResponseEntity<List<ExpensesDTO>> expensesList(@RequestParam String name) {
         return ResponseEntity.ok().body(ledgerService.getExpensesName(name));
     }
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('BOOKKEEPER, OWNER')")
     @ApiOperation(value = "Get the list of all ledgers")
     public ResponseEntity<List<LedgerDTO>> getPage(@PageableDefault(sort = {"id"}) Pageable pageable) {
         return ResponseEntity.ok().body(ledgerMapper.convertToDtoList(ledgerService.getAll(pageable)));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('BOOKKEEPER')")
     @ApiOperation(value = "Create new ledger")
     public ResponseEntity<LedgerDTO> save(@RequestBody AddLedgerDTO addLedgerDTO) {
         Ledger ledger = ledgerService.save(ledgerMapper.convertToEntity(addLedgerDTO));
@@ -66,6 +71,7 @@ public class LedgerController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('BOOKKEEPER')")
     @ApiOperation(value = "Update existing ledger by id")
     public ResponseEntity<LedgerDTO> update(@PathVariable("id") long id, @RequestBody LedgerDTO ledgerDTO) {
         if (id == ledgerDTO.getId()) {
@@ -77,6 +83,7 @@ public class LedgerController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('BOOKKEEPER')")
     @ApiOperation(value = "Delete ledger by id")
     public ResponseEntity delete(@PathVariable("id") long id) {
         Ledger ledger = ledgerService.getById(id);

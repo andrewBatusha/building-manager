@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -42,6 +43,7 @@ public class WarehouseControllerIT {
     private WarehouseRepository warehouseRepository;
 
     @Test
+    @WithMockUser(roles = "WORKER")
     public void testRetrieveWarehouseById() throws Exception {
         when(warehouseRepository.findById(anyLong())).thenReturn(Optional.of(getWarehouse(50L)));
 
@@ -51,6 +53,7 @@ public class WarehouseControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "WORKER")
     public void testRetrieveWarehouseList() throws Exception {
         final Warehouse warehouse = getWarehouse(50L);
         final List<Warehouse> warehouses = Collections.singletonList(warehouse);

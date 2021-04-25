@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -48,6 +49,7 @@ public class EmployeeControllerIT {
     private EmployeeRepository employeeRepository;
 
     @Test
+    @WithMockUser(roles = "OWNER")
     public void testRetrieveEmployeeById() throws Exception {
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(getEmployee()));
 
@@ -57,6 +59,7 @@ public class EmployeeControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "OWNER")
     public void testRetrieveEmployeeList() throws Exception {
         final Employee employee = getEmployee();
         final List<Employee> employees = Collections.singletonList(employee);
@@ -71,6 +74,7 @@ public class EmployeeControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testSaveEmployee() throws Exception {
         final Employee employee = getEmployee();
         final EmployeeDTO request = getEmployeeRequest();
@@ -83,6 +87,7 @@ public class EmployeeControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateEmployee() throws Exception {
         final Employee employee = getEmployee();
         final EmployeeDTO request = getEmployeeRequest();
@@ -95,6 +100,7 @@ public class EmployeeControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateEmployeeExpectedBadRequest() throws Exception {
         final EmployeeDTO request = getEmployeeRequest();
 
@@ -103,6 +109,7 @@ public class EmployeeControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testDeleteEmployee() throws Exception {
         final Employee employee = getEmployee();
 
